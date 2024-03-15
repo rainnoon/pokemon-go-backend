@@ -1,0 +1,38 @@
+{
+  "name": "fullstack-template",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -H 0.0.0.0",
+    "dev:foundry": "concurrently -n \"contracts,frontend\" -c \"cyan.bold,green.bold\" \"cd contracts && npm start\" \"wait-port localhost:8545 && npm run dev\"",
+    "dev:sepolia": "cd contracts && npm run dev:sepolia && cd .. && npm run dev",
+    "dev:optimism-sepolia": "cd contracts && npm run dev:optimism-sepolia && cd .. && npm run dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@rainbow-me/rainbowkit": "^2.0.0",
+    "@tanstack/react-query": "^5.22.2",
+    "@types/node": "^20.5.1",
+    "@types/react": "^18.2.20",
+    "@types/react-dom": "^18.2.19",
+    "autoprefixer": "^10.4.15",
+    "eslint": "^8.47.0",
+    "eslint-config": "^0.3.0",
+    "eslint-config-next": "^14.1.0",
+    "next": "^14.1.0",
+    "postcss": "^8.4.28",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.2.2",
+    "viem": "^2.7.11",
+    "wagmi": "^2.5.7"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.1",
+    "prettier": "^3.0.2",
+    "wait-port": "^1.0.4"
+  }
+}
