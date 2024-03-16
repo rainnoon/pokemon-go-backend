@@ -14,6 +14,10 @@ import "./IZenMonNFT.sol";
 
 contract ZenMonNFT is IZenMonNFT, ERC721, AccessControl {
     uint256 public tokenIds = 0;
+
+    uint8 baseMoodDrop = 2;
+    uint8 baseEnergyDrop = 2;
+
     mapping(address => Monster) public monsters;
 
     bytes32 public constant CONTROLLER_ROLE = keccak256("CONTROLLER_ROLE");
@@ -26,21 +30,78 @@ contract ZenMonNFT is IZenMonNFT, ERC721, AccessControl {
         address _to,
         string calldata _name,
         uint16 _base
-    ) external onlyRole(CONTROLLER_ROLE) {
+    ) external onlyRole(CONTROLLER_ROLE) returns (uint256) {
         require(!monsters[_to].live, "This address already owns an NFT");
 
+        tokenIds++;
         monsters[_to] = Monster({
             id: tokenIds,
             name: _name,
             base: _base,
             status: 0,
             live: true,
-            accessories: new uint32[](0),
-            timestamps: new uint40[](0)
+            energy: 50,
+            energyUpdated: uint40(block.timestamp),
+            mood: 20,
+            moodUpdated: uint40(block.timestamp),
+            accessories: new uint32[](0)
         });
 
         _safeMint(_to, tokenIds);
-        tokenIds++;
+        return tokenIds;
+    }
+
+    function updateEnergy(
+        address _owner,
+        uint8 _energy
+    ) external onlyRole(CONTROLLER_ROLE) {
+        Monster storage monster = monsters[_owner];
+        uint40 daysPassed = uint40(block.timestamp) -
+            monster.energyUpdated /
+            60 /
+            60 /
+            24;
+
+        if (daysPassed > 0) {
+            uint8 energyDrop = baseEnergyDrop * uint8(daysPassed);
+            if (monster.energy > energyDrop) {
+                monster.energy -= energyDrop;
+            } else {
+                monster.energy = 0;
+            }
+        }
+
+        monsters[_owner].energy += _energy;
+        monsters[_owner].energyUpdated = uint40(block.timestamp);
+    }
+
+    function updateMood(
+        address _owner,
+        uint8 _mood
+    ) external onlyRole(CONTROLLER_ROLE) {
+        Monster storage monster = monsters[_owner];
+        uint40 daysPassed = uint40(block.timestamp) -
+            monster.moodUpdated /
+            60 /
+            60 /
+            24;
+
+        if (daysPassed > 0) {
+            uint8 moodDrop = baseMoodDrop * uint8(daysPassed);
+            if (monster.mood > moodDrop) {
+                monster.mood -= moodDrop;
+            } else {
+                monster.mood = 0;
+            }
+        }
+
+        monsters[_owner].mood += _mood;
+        monsters[_owner].moodUpdated = uint40(block.timestamp);
+    }
+
+    /// @dev Returns a monster for a user's address
+    function getMonster(address _owner) external view returns (Monster memory) {
+        return monsters[_owner];
     }
 
     // Override functions to make the token soulbound (non-transferable)

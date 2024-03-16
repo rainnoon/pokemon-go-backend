@@ -1,6 +1,5 @@
 "use client";
 
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
 
 // Basic Navbar
@@ -11,7 +10,7 @@ export default function Navbar() {
   return (
     <div className="fixed top-0 left-0 z-30 w-full h-16">
       <div className="flex justify-between items-center px-4 py-4">
-        <div className="flex justify-start w-1/2">A</div>
+        <div className="flex justify-start w-1/2"></div>
         <div className="text-2xl font-superion">ZenMon</div>
         {/* Should hide eventually */}
         <div className="flex justify-end w-1/2">

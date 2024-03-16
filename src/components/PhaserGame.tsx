@@ -1,10 +1,16 @@
 import React, { useEffect, useRef } from "react";
 import Phaser from "phaser";
+import { Monster } from "@/types/monster";
 
-const PhaserGame: React.FC = () => {
+interface PhaserGameProps {
+  monster: Monster; // Assuming monType is a string for this example
+}
+
+const PhaserGame: React.FC<PhaserGameProps> = ({ monster }) => {
   const gameRef = useRef<HTMLDivElement>(null);
   const phaserGame = useRef<Phaser.Game | null>(null); // Ref to store the Phaser game instance
-  const monType = 1;
+
+  const monType = monster.base;
 
   useEffect(() => {
     // Only create a new game if one doesn't already exist

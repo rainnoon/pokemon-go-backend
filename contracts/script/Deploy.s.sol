@@ -4,6 +4,7 @@ pragma solidity ^0.8.24;
 import "forge-std/Script.sol";
 import "../src/ZenMonController.sol";
 import "../src/ZenMonNFT.sol";
+import "../src/ZenMonItems.sol";
 import "../src/ZenMonVault.sol";
 import "../src/ZenMonViewer.sol";
 
@@ -25,12 +26,67 @@ contract Deploy is Script {
         ZenMonNFT nft = new ZenMonNFT(controllerAddress);
         address nftAddress = address(nft);
 
+        ZenMonItems items = new ZenMonItems();
+        address itemsAddress = address(items);
+
         // Declare and initialize the Vault contract and its address with the controller's address
         ZenMonVault vault = new ZenMonVault(controllerAddress);
         address vaultAddress = address(vault);
 
         // Initialize the Viewer contract with the NFT and Vault addresses
-        ZenMonViewer viewer = new ZenMonViewer(nftAddress, vaultAddress);
+        ZenMonViewer viewer = new ZenMonViewer(
+            nftAddress,
+            itemsAddress,
+            vaultAddress
+        );
+
+        // Set the NFT and Vault contracts in the controller
+        controller.setNFTContract(nftAddress);
+        controller.setItemsContract(itemsAddress);
+        controller.setVaultContract(vaultAddress);
+
+        // Create some items
+        //name, fee, feeToken, feeTokenSymbol, lock, id, itemType, itemBoost
+        items.createItem(
+            1,
+            "Salmon",
+            5000000000000000000,
+            address(0),
+            "CUSD",
+            30,
+            0,
+            1
+        );
+        items.createItem(
+            2,
+            "Sea Bass",
+            7500000000000000000,
+            address(0),
+            "CUSD",
+            90,
+            0,
+            5
+        );
+        items.createItem(
+            3,
+            "Chutoro",
+            10000000000000000000,
+            address(0),
+            "CUSD",
+            180,
+            0,
+            10
+        );
+        items.createItem(
+            4,
+            "Toro",
+            10000000000000000000,
+            address(0),
+            "CUSD",
+            360,
+            0,
+            20
+        );
 
         vm.stopBroadcast();
     }

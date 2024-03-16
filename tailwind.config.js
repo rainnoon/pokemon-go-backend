@@ -15,6 +15,9 @@ module.exports = {
       fontFamily: {
         superion: ["Superion", "sans-serif"],
       },
+      colors: {
+        accent: "#FF6746", // Add your custom color here
+      },
     },
   },
   plugins: [],
