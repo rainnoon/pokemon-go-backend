@@ -1,13 +1,21 @@
 import { getDefaultConfig } from "@rainbow-me/rainbowkit";
 import { fallback, http, webSocket } from "viem";
-import { chiliz, foundry, mainnet, sepolia, spicy } from "viem/chains";
+import {
+  arbitrumSepolia,
+  foundry,
+  mainnet,
+  sepolia,
+  spicy,
+  baseSepolia,
+  auroraTestnet,
+} from "viem/chains";
 
 const walletConnectProjectId = "7b89f04f8986abd750f74d7668f82275";
 
 // Transports must be set for each chain, for now using bounty networks, need to add
 
 const config = getDefaultConfig({
-  appName: "Demo",
+  appName: "ZenMon",
   projectId: walletConnectProjectId,
   chains: [
     mainnet,
@@ -32,6 +40,26 @@ const config = getDefaultConfig({
     [spicy.id]: fallback([
       webSocket("wss://spicy-rpc-ws.chiliz.com/"),
       http("https://spicy-rpc.chiliz.com/"),
+    ]),
+    [baseSepolia.id]: fallback([
+      webSocket(
+        "wss://base-sepolia.g.alchemy.com/v2/3rb7yUwky2ZfI_2uh1J_HSbiE4-njJAm"
+      ),
+      http(
+        "https://base-sepolia.g.alchemy.com/v2/3rb7yUwky2ZfI_2uh1J_HSbiE4-njJAm"
+      ),
+    ]),
+    [arbitrumSepolia.id]: fallback([
+      webSocket(
+        "https://arb-sepolia.g.alchemy.com/v2/JW2E-DaJtduYdzbbebQ19WcIMdlqCG9p"
+      ),
+      http(
+        "wss://arb-sepolia.g.alchemy.com/v2/JW2E-DaJtduYdzbbebQ19WcIMdlqCG9p"
+      ),
+    ]),
+    [auroraTestnet.id]: fallback([
+      webSocket("wss://aurora-testnet.drpc.org"),
+      http("https://testnet.aurora.dev"),
     ]),
   },
   ssr: true,
