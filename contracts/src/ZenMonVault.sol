@@ -7,7 +7,7 @@ pragma solidity ^0.8.24;
 import "openzeppelin-contracts/contracts/access/AccessControl.sol";
 import "./IZenMonVault.sol";
 
-contract ZenMonVault is AccessControl {
+contract ZenMonVault is AccessControl, IZenMonVault {
     bytes32 public constant CONTROLLER_ROLE = keccak256("CONTROLLER_ROLE");
 
     uint256 public vaultIds;
@@ -21,20 +21,27 @@ contract ZenMonVault is AccessControl {
 
     function lockFunds(
         address _user,
+        string calldata _symbol,
         address _tokenAddress,
         uint256 _amount,
         uint16 _lock
-    ) external onlyRole(CONTROLLER_ROLE) returns (uint256 vaultId) {
+    ) external payable onlyRole(CONTROLLER_ROLE) {
         // Lock funds for a specific token
         vaultIds++;
         vaultItems[vaultIds] = VaultItem({
             id: vaultIds,
+            symbol: _symbol,
             token: _tokenAddress,
             amount: _amount,
-            expiry: uint40(block.timestamp + (_lock * 60 * 60 * 24))
+            expiry: uint40(
+                uint40(block.timestamp) + (uint40(_lock) * 60 * 60 * 24)
+            )
         });
         userVaults[_user].push(vaultIds);
-        vaultId = vaultIds;
+    }
+
+    function getVault(uint256 _id) external view returns (VaultItem memory) {
+        return vaultItems[_id];
     }
 
     function getVaults(

@@ -56,8 +56,7 @@ contract ZenMonNFT is IZenMonNFT, ERC721, AccessControl {
         uint8 _energy
     ) external onlyRole(CONTROLLER_ROLE) {
         Monster storage monster = monsters[_owner];
-        uint40 daysPassed = uint40(block.timestamp) -
-            monster.energyUpdated /
+        uint40 daysPassed = (uint40(block.timestamp) - monster.energyUpdated) /
             60 /
             60 /
             24;
@@ -71,7 +70,11 @@ contract ZenMonNFT is IZenMonNFT, ERC721, AccessControl {
             }
         }
 
-        monsters[_owner].energy += _energy;
+        if (monster.energy + _energy > 100) {
+            monsters[_owner].energy = 100;
+        } else {
+            monsters[_owner].energy += _energy;
+        }
         monsters[_owner].energyUpdated = uint40(block.timestamp);
     }
 
@@ -80,8 +83,7 @@ contract ZenMonNFT is IZenMonNFT, ERC721, AccessControl {
         uint8 _mood
     ) external onlyRole(CONTROLLER_ROLE) {
         Monster storage monster = monsters[_owner];
-        uint40 daysPassed = uint40(block.timestamp) -
-            monster.moodUpdated /
+        uint40 daysPassed = (uint40(block.timestamp) - monster.moodUpdated) /
             60 /
             60 /
             24;
@@ -95,7 +97,11 @@ contract ZenMonNFT is IZenMonNFT, ERC721, AccessControl {
             }
         }
 
-        monsters[_owner].mood += _mood;
+        if (monster.mood + _mood > 100) {
+            monsters[_owner].mood = 100;
+        } else {
+            monsters[_owner].mood += _mood;
+        }
         monsters[_owner].moodUpdated = uint40(block.timestamp);
     }
 

@@ -19,7 +19,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
           theme={darkTheme({
             borderRadius: "small",
             fontStack: "system",
-            ...darkTheme.accentColors.purple,
+            accentColor: "#FF6746",
           })}
         >
           {mounted && children}

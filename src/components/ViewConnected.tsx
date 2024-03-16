@@ -27,12 +27,21 @@ export default function ViewConnected() {
   const queryClient = useQueryClient();
   const { address } = useAccount();
 
-  const { data: monster, queryKey } = useReadContract({
+  const {
+    data: monster,
+    queryKey,
+    refetch,
+  } = useReadContract({
     address: viewContract && viewContract.address,
     abi: viewContract && viewContract.abi,
     functionName: "getMonster",
     args: address && [address],
   });
+
+  const refetchMonster = () => {
+    console.log("Refetching monster...");
+    refetch();
+  };
 
   // Creating monster
   const { data: hash, writeContract, isPending } = useWriteContract();
@@ -86,14 +95,18 @@ export default function ViewConnected() {
   }, [isConfirmed]);
 
   if (mon?.live) {
-    return <ViewConnectedMember monster={mon} />;
+    return (
+      <div className="w-full flex flex-col items-center justify-center">
+        <ViewConnectedMember monster={mon} refetchMonster={refetchMonster} />
+      </div>
+    );
   }
 
   return (
     <div className="flex flex-col h-screen justify-between items-center gap-2 max-w-screen-sm py-4 px-4">
-      <div className="text-xl font-superion">Create your ZenMon</div>
+      <div className="text-3xl pt-4">Create your ZenMon</div>
       <div className="flex flex-col gap-6 justify-center items-center">
-        <div className="text-lg font-superion">Pick a Mon you vibe with...</div>
+        <div className="text-2xl">Pick a Mon you vibe with...</div>
         <div className="grid grid-cols-3 gap-4">
           <div
             className={`rounded-xl border-2 ${base === 1 ? "border-accent" : "border-transparent"}`}
@@ -170,7 +183,7 @@ export default function ViewConnected() {
             />
           </div>
         </div>
-        <div className="text-lg font-superion">Give them a name...</div>
+        <div className="text-2xl">Give them a name...</div>
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}

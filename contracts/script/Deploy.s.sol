@@ -13,7 +13,7 @@ import "../src/ZenMonViewer.sol";
 
 contract Deploy is Script {
     function run() external {
-        // uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
+        //uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
         // uint256 deployerPrivateKey = vm.envUint("BURNER_PK");
         uint256 deployerPrivateKey = vm.envUint("HH_PK");
         vm.startBroadcast(deployerPrivateKey);
@@ -50,9 +50,9 @@ contract Deploy is Script {
         items.createItem(
             1,
             "Salmon",
-            5000000000000000000,
+            500000000000000,
             address(0),
-            "CUSD",
+            "ETH",
             30,
             0,
             1
@@ -60,9 +60,9 @@ contract Deploy is Script {
         items.createItem(
             2,
             "Sea Bass",
-            7500000000000000000,
+            750000000000000,
             address(0),
-            "CUSD",
+            "ETH",
             90,
             0,
             5
@@ -70,7 +70,7 @@ contract Deploy is Script {
         items.createItem(
             3,
             "Chutoro",
-            10000000000000000000,
+            1000000000000000,
             address(0),
             "CUSD",
             180,
@@ -80,7 +80,7 @@ contract Deploy is Script {
         items.createItem(
             4,
             "Toro",
-            10000000000000000000,
+            1000000000000000,
             address(0),
             "CUSD",
             360,

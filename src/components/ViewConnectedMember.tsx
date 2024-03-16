@@ -4,7 +4,7 @@ import Interaction from "./InteractionView";
 import Navbar from "./Navbar";
 import NavbarSpacer from "./NavbarSpacer";
 import PhaserGame from "./PhaserGame";
-import { Monster } from "@/types/monster";
+import { Monster, monEnergyToString, monMoodToString } from "@/types/monster";
 import { Vault } from "@/types/vault";
 import {
   useAccount,
@@ -14,13 +14,17 @@ import {
 } from "wagmi";
 import { contracts } from "@/contracts/contracts";
 import { useQueryClient } from "@tanstack/react-query";
+import { formatEther } from "viem";
+import { daysFromNow } from "@/utils/timedate";
 
 interface ViewConnectedMemberProps {
   monster: Monster;
+  refetchMonster: () => void;
 }
 
 export default function ViewConnectedMember({
   monster,
+  refetchMonster,
 }: ViewConnectedMemberProps) {
   const [mode, setMode] = useState<"monster" | "vault">("monster");
 
@@ -37,58 +41,96 @@ export default function ViewConnectedMember({
     address: viewContract && viewContract.address,
     abi: viewContract && viewContract.abi,
     functionName: "getVaults",
-    args: [],
+    args: address && [address],
   });
 
   // Load vaults if successful
   useEffect(() => {
     if (newVaults) {
-      console.log(newVaults);
+      const newVaultsArray = newVaults.map((vault: any) => {
+        return {
+          id: vault.id,
+          token: vault.token,
+          amount: vault.amount,
+          expiry: vault.expiry,
+        };
+      });
+      setVaults(newVaultsArray.sort((a, b) => a.expiry - b.expiry));
     }
   }, [newVaults]);
 
+  const ethusd = 3750;
+
+  const netPosition =
+    vaults.reduce((acc, vault) => {
+      return acc + Number(formatEther(vault.amount));
+    }, 0) * ethusd;
+
   return (
-    <div className="flex flex-col items-center gap-2 max-w-screen-sm">
+    <div className="flex flex-col items-center justify-center gap-2 max-w-screen-sm">
       <Navbar />
       <NavbarSpacer />
 
       {mode === "monster" ? (
-        <div className="flex flex-col gap-2 w-full px-8 items-center">
+        <div className="flex flex-col gap-2 w-full px-8 items-center justify-center">
           <div>
             <PhaserGame monster={monster} />
           </div>
-          <div className="font-superion text-xl">{`${monster.name}`}</div>
-          <div className="font-superion text-md">{`${"Kinda tired and grumpy..."}`}</div>
-          <div className="flex flex-col gap-2 w-full px-8 pt-4">
-            <div className="text-xs font-bold font-superion">Energy</div>
+          <div className="text-3xl">{`${monster.name}`}</div>
+          <div className="text-xl">{`${monEnergyToString(monster.energy)} and ${monMoodToString(monster.mood)}...`}</div>
+          <div className="flex flex-col gap-0 w-full px-8 pt-4">
+            <div className="text-md font-bold ">Energy</div>
             <EnergyBar value={monster.energy} />
           </div>
-          <div className="flex flex-col gap-2 w-full px-8 pt-4">
-            <div className="text-xs font-bold font-superion">Mood</div>
+          <div className="flex flex-col gap-0 w-full px-8 pt-4">
+            <div className="text-md font-bold ">Mood</div>
             <EnergyBar value={monster.mood} />
           </div>
           <div className="w-full">
-            <Interaction />
+            <Interaction refetchMonster={refetchMonster} />
           </div>
         </div>
       ) : (
-        <div className="h-screen flex flex-col gap-4">
-          <div className="mt-8 flex flex-col gap-2 w-36 p-4 items-center justify-center rounded-full border-4 border-white h-36">
-            <div className=" font-superion text-4xl">$120</div>
+        <div className="h-screen flex flex-col gap-4 justify-start items-center">
+          <div className="mt-8 flex flex-col gap-2 min-w-48 p-4 items-center justify-center rounded-full border-4 border-white min-h-48">
+            <div className=" font-superion text-4xl">
+              ${netPosition.toFixed(2)}
+            </div>
+          </div>
+          <div>
+            <div className="flex flex-col text-2xl mb-2">Your Savings</div>
+            {vaults.map((vault, index) => (
+              <div key={index} className="flex flex-col mb-2">
+                <div className="flex flex-row justify-between text-md">
+                  <div>
+                    ${(Number(formatEther(vault.amount)) * ethusd).toFixed(2)}
+                  </div>
+                  <div>{daysFromNow(vault.expiry)}d</div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div>
+            <button
+              disabled={true}
+              className="bg-accent  rounded-md p-2 text-xl disabled:opacity-50"
+            >
+              No withdraw available
+            </button>
           </div>
         </div>
       )}
       <div className="fixed bottom-0 left-0 w-full h-16 z-10">
         <button
-          className={`font-superion w-1/2  h-full ${mode === "monster" ? "bg-accent" : "bg-gray-900"}`}
+          className={`text-xl w-1/2  h-full ${mode === "monster" ? "bg-accent" : "bg-gray-900"}`}
           onClick={() => {
             setMode("monster");
           }}
         >
-          Mon
+          {monster.name}
         </button>
         <button
-          className={`font-superion w-1/2  h-full ${mode === "vault" ? "bg-accent" : "bg-gray-900"}`}
+          className={`text-xl w-1/2  h-full ${mode === "vault" ? "bg-accent" : "bg-gray-900"}`}
           onClick={() => {
             setMode("vault");
           }}

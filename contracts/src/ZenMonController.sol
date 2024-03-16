@@ -50,28 +50,28 @@ contract ZenMonController is AccessControl {
     function purchaseBoost(uint32 _id) external payable {
         SavingItem memory item = items.getItem(_id);
         require(item.id > 0, "Item not found");
+
+        // Network token purchase
         if (msg.value > 0) {
-            require(
-                item.feeToken == address(0),
-                "Item is not payable with ETH"
-            );
             require(msg.value == item.fee, "Incorrect fee");
-
-            // Send value to vault
-            (bool success, ) = address(vault).call{
-                value: msg.value,
-                gas: 30_000
-            }("");
-            require(success, "Transfer failed");
-
-            // Log savings
         }
 
         // Handle ERC20 token use case here
         // Not yet supported
-        if (item.feeToken != address(0)) {}
+        if (item.feeToken != address(0)) {
+            // Transfer token to vault
+        }
 
-        // Apply boost
+        // Create vault
+        vault.lockFunds{value: msg.value}(
+            msg.sender,
+            item.feeTokenSymbol,
+            item.feeToken,
+            item.fee,
+            item.lock
+        );
+
+        //Apply boost
         if (item.itemType == 0) {
             nft.updateEnergy(msg.sender, item.itemBoost);
         } else if (item.itemType == 1) {

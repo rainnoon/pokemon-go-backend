@@ -33,7 +33,9 @@ contract ZenMonViewer {
         return items.getItems();
     }
 
-    function getVaults() external view returns (VaultItem[] memory) {
-        return vault.getVaults(msg.sender);
+    function getVaults(
+        address _owner
+    ) external view returns (VaultItem[] memory) {
+        return vault.getVaults(_owner);
     }
 }

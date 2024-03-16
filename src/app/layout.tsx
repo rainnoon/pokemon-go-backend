@@ -5,13 +5,13 @@ import "./globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
 
 // Fonts
-import { Inter } from "next/font/google";
+import { Unkempt } from "next/font/google";
 
 // Components
 import { Providers } from "./providers";
 import Navbar from "@/components/Navbar";
 
-const inter = Inter({ subsets: ["latin"] });
+const unkempt = Unkempt({ subsets: ["latin"], weight: ["400", "700"] });
 
 export const metadata: Metadata = {
   title: "ZenMon",
@@ -25,7 +25,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={unkempt.className}>
         <Providers>{children}</Providers>
       </body>
     </html>

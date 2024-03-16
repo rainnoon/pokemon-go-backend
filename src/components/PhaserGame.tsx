@@ -462,7 +462,7 @@ const PhaserGame: React.FC<PhaserGameProps> = ({ monster }) => {
                 "idle"
               )
               .setScale(6)
-              .play("idle");
+              .play("liedown");
 
             // Enable input on the sprite
             mon.setInteractive();

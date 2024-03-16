@@ -6,6 +6,7 @@ pragma solidity ^0.8.24;
 
 struct VaultItem {
     uint256 id;
+    string symbol;
     address token;
     uint256 amount;
     uint40 expiry;
@@ -14,10 +15,13 @@ struct VaultItem {
 interface IZenMonVault {
     function lockFunds(
         address _user,
+        string calldata _symbol,
         address _tokenAddress,
         uint256 _amount,
         uint16 _lock
-    ) external returns (uint256 vaultId);
+    ) external payable;
+
+    function getVault(uint256 _id) external view returns (VaultItem memory);
 
     function getVaults(
         address _user

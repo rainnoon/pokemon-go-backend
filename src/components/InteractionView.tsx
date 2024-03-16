@@ -5,9 +5,18 @@ import { SavingItem, savingItemTypeToString } from "@/types/savingItem";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { formatEther } from "viem";
-import { useChainId, useReadContract, useWriteContract } from "wagmi";
+import {
+  useChainId,
+  useReadContract,
+  useWaitForTransactionReceipt,
+  useWriteContract,
+} from "wagmi";
 
-export default function Interaction() {
+interface InteractionProps {
+  refetchMonster: () => void;
+}
+
+export default function Interaction({ refetchMonster }: InteractionProps) {
   const [items, setItems] = useState<SavingItem[]>([]);
 
   const chainId = useChainId();
@@ -24,7 +33,30 @@ export default function Interaction() {
   });
 
   // Creating vault
-  const { data: hash, writeContract, isPending } = useWriteContract();
+  const { data: hash, writeContract, isPending, error } = useWriteContract();
+  const contract =
+    contracts[chainId as keyof typeof contracts].ZenMonController!;
+  const abi = contract.abi;
+
+  const { isLoading: isConfirming, isSuccess: isConfirmed } =
+    useWaitForTransactionReceipt({
+      hash,
+    });
+
+  isConfirmed && refetchMonster();
+
+  const purchaseBoost = async (id: number, value: bigint) => {
+    if (isPending || isConfirming) {
+      return;
+    }
+    await writeContract({
+      abi,
+      address: contract.address,
+      functionName: "purchaseBoost",
+      args: [id],
+      value: value,
+    });
+  };
 
   useEffect(() => {
     if (newItems) {
@@ -45,15 +77,21 @@ export default function Interaction() {
   }, [newItems]);
 
   return (
-    <div className="w-full grid grid-cols-2 mt-8 gap-2">
+    <div className="w-full grid grid-cols-2 mt-8 gap-2 ">
       {items.map((item, index) => (
-        <div key={index} className="w-full rounded-lg bg-gray-900 p-2">
+        <div
+          key={index}
+          className="w-full rounded-lg bg-gray-900 p-2 cursor-pointer"
+          onClick={() => {
+            purchaseBoost(item.id, item.fee);
+          }}
+        >
           <div className="flex flex-col items-center justify-center text-sm">
             <div className="font-bold">{item.name} 🍣</div>
             <div className="">{`${savingItemTypeToString(item.itemType)} +${item.itemBoost}`}</div>
             <div className="text-xs">{`
             ${formatEther(item.fee)}
-              ${item.feeTokenSymbol} (Saved: ${item.lock}d)     
+              ${item.feeTokenSymbol} (${item.lock}d)     
 `}</div>
           </div>
         </div>
