@@ -3,7 +3,6 @@ import { fallback, http, webSocket } from "viem";
 import {
   arbitrumSepolia,
   foundry,
-  mainnet,
   sepolia,
   spicy,
   baseSepolia,
@@ -18,18 +17,13 @@ const config = getDefaultConfig({
   appName: "ZenMon",
   projectId: walletConnectProjectId,
   chains: [
-    mainnet,
-    ...(process.env.NODE_ENV === "development"
-      ? [sepolia, foundry, spicy]
-      : []),
+    arbitrumSepolia,
+    baseSepolia,
+    auroraTestnet,
+    spicy,
+    ...(process.env.NODE_ENV === "development" ? [sepolia, foundry] : []),
   ],
   transports: {
-    [mainnet.id]: fallback([
-      webSocket(
-        "wss://mainnet.infura.io/ws/v3/5ed87f32fc4d40529b2ef2caf65f8145"
-      ),
-      http("https://mainnet.infura.io/v3/5ed87f32fc4d40529b2ef2caf65f8145"),
-    ]),
     [foundry.id]: http("http://localhost:8545"),
     [sepolia.id]: fallback([
       webSocket(
