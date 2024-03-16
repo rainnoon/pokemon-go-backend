@@ -2,8 +2,7 @@
 pragma solidity ^0.8.24;
 
 import "forge-std/Script.sol";
-import "../src/BasedNFT.sol";
-import "../src/BasedToken.sol";
+import "../src/ZenMonNFT.sol";
 
 // @title Interact
 // @dev Interact is a script to interact with random contracts.
@@ -11,13 +10,13 @@ import "../src/BasedToken.sol";
 contract Interact is Script {
     function run() external {
         uint256 deployerPrivateKey = vm.envUint("HH_PK");
+        address deployerAddress = vm.addr(deployerPrivateKey);
         vm.startBroadcast(deployerPrivateKey);
-        BasedNFT basedNFT = BasedNFT(
+        ZenMonNFT zenMonNFT = ZenMonNFT(
             0x0000000000000000000000000000000000000000
-        ); //<addresshere within ()>
-
-        basedNFT.mint();
-        console.log(basedNFT.totalSupply());
+        ); //Replace with contract address when needed
+        zenMonNFT.mint(deployerAddress, "Jiji", 0);
+        console.log(zenMonNFT.tokenIds());
         vm.stopBroadcast();
     }
 }

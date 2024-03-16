@@ -323,7 +323,7 @@ const PhaserGame: React.FC = () => {
                 end: 3,
               }),
               frameRate: 5,
-              repeat: -1,
+              repeat: 0,
             });
 
             this.anims.create({
@@ -333,7 +333,7 @@ const PhaserGame: React.FC = () => {
                 end: 1,
               }),
               frameRate: 5,
-              repeat: -1,
+              repeat: 0,
             });
 
             this.anims.create({
@@ -457,6 +457,23 @@ const PhaserGame: React.FC = () => {
               )
               .setScale(6)
               .play("idle");
+
+            // Enable input on the sprite
+            mon.setInteractive();
+
+            // Add a listener for the 'pointerdown' event (tap or click)
+            mon.on("pointerdown", () => {
+              mon.play("jump");
+
+              // When the 'react' animation completes, return to the 'idle' animation
+              mon.on(
+                Phaser.Animations.Events.ANIMATION_COMPLETE,
+                () => {
+                  mon.play("idle");
+                },
+                this
+              ); // Passing 'this' to ensure the callback's context is correct
+            });
           },
         },
       };
