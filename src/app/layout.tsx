@@ -5,17 +5,17 @@ import "./globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
 
 // Fonts
-import { Urbanist } from "next/font/google";
+import { Inter } from "next/font/google";
 
 // Components
 import { Providers } from "./providers";
 import Navbar from "@/components/Navbar";
 
-const urbanist = Urbanist({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "ZenMon",
-  description: "Created by @PDiTO",
+  description: "Created by @PDiTO for ETHGlobal London 2024",
 };
 
 export default function RootLayout({
@@ -25,7 +25,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={urbanist.className}>
+      <body className={inter.className}>
         <Providers>
           <Navbar />
           {children}
