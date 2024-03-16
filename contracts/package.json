@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "anvil": "anvil --block-time 2",
+    "forge": "wait-port localhost:8545 && forge script script/Deploy.s.sol:Deploy --fork-url http://localhost:8545 --broadcast && node script/GenerateAbis.js",
+    "start": "concurrently \"npm run anvil\" \"npm run forge\"",
+    "dev:sepolia": "forge script script/Deploy.s.sol:Deploy --rpc-url sepolia --broadcast --verify && node script/GenerateAbis.js",
+    "dev:optimism-sepolia": "forge script script/Deploy.s.sol:Deploy --rpc-url optimism-sepolia --broadcast --verify && node script/GenerateAbis.js"
+  }
+}
