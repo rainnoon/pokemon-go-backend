@@ -59,20 +59,20 @@ contract Deploy is Script {
         );
         items.createItem(
             2,
-            "Sea Bass",
-            750000000000000,
-            address(0),
-            "ETH",
-            90,
+            "Bored Bananas",
+            10000000000000000000,
+            0x4d224452801ACEd8B2F0aebE155379bb5D594381,
+            "APE",
+            180,
             0,
-            5
+            50
         );
         items.createItem(
             3,
             "Chutoro",
             1000000000000000,
             address(0),
-            "CUSD",
+            "ETH",
             180,
             0,
             10
@@ -82,7 +82,7 @@ contract Deploy is Script {
             "Toro",
             1000000000000000,
             address(0),
-            "CUSD",
+            "ETH",
             360,
             0,
             20

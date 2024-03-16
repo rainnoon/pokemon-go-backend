@@ -39,7 +39,6 @@ export default function ViewConnected() {
   });
 
   const refetchMonster = () => {
-    console.log("Refetching monster...");
     refetch();
   };
 
@@ -62,8 +61,14 @@ export default function ViewConnected() {
         accessories: [...monster.accessories],
       };
       setMon(newMonster);
+      if (typeof document !== "undefined") {
+        const event = new CustomEvent("phaserEvent", { detail: newMonster });
+        document.dispatchEvent(event);
+      }
     }
   }, [monster]);
+
+  console.log(monster);
 
   if (
     !(chainId in contracts) ||

@@ -455,14 +455,29 @@ const PhaserGame: React.FC<PhaserGameProps> = ({ monster }) => {
               repeat: -1,
             });
 
+            let mon_energy = monster.energy;
+
             const mon = this.add
               .sprite(
                 this.cameras.main.width / 2,
                 this.cameras.main.height / 2,
                 "idle"
               )
-              .setScale(6)
-              .play("liedown");
+              .setScale(6);
+
+            if (mon_energy < 20) {
+              mon.play("fright");
+            } else if (mon_energy < 40) {
+              mon.play("liedown");
+            } else if (mon_energy < 60) {
+              mon.play("idle");
+            } else if (mon_energy < 80) {
+              mon.play("walk");
+            } else if (mon_energy < 100) {
+              mon.play("run");
+            } else if (mon_energy === 100) {
+              mon.play("dash");
+            }
 
             // Enable input on the sprite
             mon.setInteractive();
@@ -475,10 +490,47 @@ const PhaserGame: React.FC<PhaserGameProps> = ({ monster }) => {
               mon.on(
                 Phaser.Animations.Events.ANIMATION_COMPLETE,
                 () => {
-                  mon.play("idle");
+                  if (mon_energy < 20) {
+                    mon.play("fright");
+                  } else if (mon_energy < 40) {
+                    mon.play("liedown");
+                  } else if (mon_energy < 60) {
+                    mon.play("idle");
+                  } else if (mon_energy < 80) {
+                    mon.play("walk");
+                  } else if (mon_energy < 100) {
+                    mon.play("run");
+                  } else if (mon_energy === 100) {
+                    mon.play("dash");
+                  }
                 },
                 this
               ); // Passing 'this' to ensure the callback's context is correct
+            });
+
+            document.addEventListener("phaserEvent", (event) => {
+              // Do something with the event
+              const customEvent = event as CustomEvent;
+              const energy = customEvent.detail.energy;
+              mon_energy = energy;
+
+              if (!mon) {
+                return;
+              }
+
+              if (energy < 20) {
+                mon.play("fright");
+              } else if (energy < 40) {
+                mon.play("liedown");
+              } else if (energy < 60) {
+                mon.play("idle");
+              } else if (energy < 80) {
+                mon.play("walk");
+              } else if (energy < 100) {
+                mon.play("run");
+              } else if (energy === 100) {
+                mon.play("dash");
+              }
             });
           },
         },

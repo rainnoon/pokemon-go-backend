@@ -58,6 +58,8 @@ export default function Interaction({ refetchMonster }: InteractionProps) {
     });
   };
 
+  console.log(items);
+
   useEffect(() => {
     if (newItems) {
       const newItemsArray = newItems.map((item: any) => {
@@ -83,11 +85,16 @@ export default function Interaction({ refetchMonster }: InteractionProps) {
           key={index}
           className="w-full rounded-lg bg-gray-900 p-2 cursor-pointer"
           onClick={() => {
-            purchaseBoost(item.id, item.fee);
+            purchaseBoost(
+              item.id,
+              item.feeTokenSymbol === "ETH" ? item.fee : BigInt(0)
+            );
           }}
         >
           <div className="flex flex-col items-center justify-center text-sm">
-            <div className="font-bold">{item.name} 🍣</div>
+            <div className="font-bold">
+              {item.name} {item.feeTokenSymbol === "ETH" ? "🍣" : "🍌"}
+            </div>
             <div className="">{`${savingItemTypeToString(item.itemType)} +${item.itemBoost}`}</div>
             <div className="text-xs">{`
             ${formatEther(item.fee)}

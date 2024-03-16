@@ -74,7 +74,7 @@ contract ZenMonController is AccessControl {
         //Apply boost
         if (item.itemType == 0) {
             nft.updateEnergy(msg.sender, item.itemBoost);
-        } else if (item.itemType == 1) {
+        } else {
             nft.updateMood(msg.sender, item.itemBoost);
         }
     }

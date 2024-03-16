@@ -60,11 +60,17 @@ export default function ViewConnectedMember({
   }, [newVaults]);
 
   const ethusd = 3750;
+  const apeusd = 2.1;
 
-  const netPosition =
-    vaults.reduce((acc, vault) => {
-      return acc + Number(formatEther(vault.amount));
-    }, 0) * ethusd;
+  const netPosition = vaults.reduce((acc, vault) => {
+    return (
+      acc +
+      Number(formatEther(vault.amount)) *
+        (vault.token === "0x0000000000000000000000000000000000000000"
+          ? ethusd
+          : apeusd)
+    );
+  }, 0);
 
   return (
     <div className="flex flex-col items-center justify-center gap-2 max-w-screen-sm">
@@ -103,7 +109,17 @@ export default function ViewConnectedMember({
               <div key={index} className="flex flex-col mb-2">
                 <div className="flex flex-row justify-between text-md">
                   <div>
-                    ${(Number(formatEther(vault.amount)) * ethusd).toFixed(2)}
+                    $
+                    {vault.token ===
+                    "0x0000000000000000000000000000000000000000"
+                      ? (Number(formatEther(vault.amount)) * ethusd).toFixed(2)
+                      : (Number(formatEther(vault.amount)) * apeusd).toFixed(2)}
+                  </div>
+                  <div>
+                    {vault.token ===
+                    "0x0000000000000000000000000000000000000000"
+                      ? "ETH"
+                      : "APE"}
                   </div>
                   <div>{daysFromNow(vault.expiry)}d</div>
                 </div>
@@ -120,7 +136,7 @@ export default function ViewConnectedMember({
           </div>
         </div>
       )}
-      <div className="fixed bottom-0 left-0 w-full h-16 z-10">
+      <div className="fixed bottom-0 left-0 w-full h-14 z-10">
         <button
           className={`text-xl w-1/2  h-full ${mode === "monster" ? "bg-accent" : "bg-gray-900"}`}
           onClick={() => {
