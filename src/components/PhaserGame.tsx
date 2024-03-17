@@ -13,6 +13,7 @@ const PhaserGame: React.FC<PhaserGameProps> = ({ monster }) => {
   const monType = monster.base;
 
   useEffect(() => {
+    let isActive = true;
     // Only create a new game if one doesn't already exist
     if (
       gameRef.current &&
@@ -509,6 +510,7 @@ const PhaserGame: React.FC<PhaserGameProps> = ({ monster }) => {
             });
 
             document.addEventListener("phaserEvent", (event) => {
+              if (!isActive) return;
               // Do something with the event
               const customEvent = event as CustomEvent;
               const energy = customEvent.detail.energy;
@@ -542,6 +544,7 @@ const PhaserGame: React.FC<PhaserGameProps> = ({ monster }) => {
 
     // Cleanup function to destroy the game instance when the component unmounts
     return () => {
+      isActive = false;
       if (phaserGame.current) {
         phaserGame.current.destroy(true);
         phaserGame.current = null;

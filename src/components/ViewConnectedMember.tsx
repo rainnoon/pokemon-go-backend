@@ -77,8 +77,8 @@ export default function ViewConnectedMember({
     }
   }, [mode]);
 
-  const ethusd = 3750;
-  const apeusd = 2.1;
+  const ethusd = 3548;
+  const apeusd = 1.96;
 
   const netPosition = vaults.reduce((acc, vault) => {
     return (
