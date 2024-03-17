@@ -13,9 +13,9 @@ import "../src/ZenMonViewer.sol";
 
 contract Deploy is Script {
     function run() external {
-        uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
+        //uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
         // uint256 deployerPrivateKey = vm.envUint("BURNER_PK");
-        //uint256 deployerPrivateKey = vm.envUint("HH_PK");
+        uint256 deployerPrivateKey = vm.envUint("HH_PK");
         vm.startBroadcast(deployerPrivateKey);
 
         // Declare and initialize the controller and its address

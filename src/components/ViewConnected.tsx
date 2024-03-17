@@ -68,8 +68,6 @@ export default function ViewConnected() {
     }
   }, [monster]);
 
-  console.log(monster);
-
   if (
     !(chainId in contracts) ||
     !contracts[chainId as keyof typeof contracts].ZenMonController
@@ -108,7 +106,7 @@ export default function ViewConnected() {
   }
 
   return (
-    <div className="flex flex-col h-screen justify-between items-center gap-2 max-w-screen-sm py-4 px-4">
+    <div className="w-full flex flex-col h-screen justify-between items-center gap-2 py-4 px-4">
       <div className="text-3xl pt-4">Create your ZenMon</div>
       <div className="flex flex-col gap-6 justify-center items-center">
         <div className="text-2xl">Pick a Mon you vibe with...</div>

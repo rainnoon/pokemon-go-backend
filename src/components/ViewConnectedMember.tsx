@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import EnergyBar from "./EnergyBar";
 import Interaction from "./InteractionView";
@@ -16,6 +18,12 @@ import { contracts } from "@/contracts/contracts";
 import { useQueryClient } from "@tanstack/react-query";
 import { formatEther } from "viem";
 import { daysFromNow } from "@/utils/timedate";
+
+import dynamic from "next/dynamic";
+const DynamicComponentWithNoSSR = dynamic(
+  () => import("@/components/PhaserGame"),
+  { ssr: false }
+);
 
 interface ViewConnectedMemberProps {
   monster: Monster;
@@ -80,7 +88,8 @@ export default function ViewConnectedMember({
       {mode === "monster" ? (
         <div className="flex flex-col gap-2 w-full px-8 items-center justify-center">
           <div>
-            <PhaserGame monster={monster} />
+            {/* <PhaserGame monster={monster} /> */}
+            <DynamicComponentWithNoSSR monster={monster} />
           </div>
           <div className="text-3xl">{`${monster.name}`}</div>
           <div className="text-xl">{`${monEnergyToString(monster.energy)} and ${monMoodToString(monster.mood)}...`}</div>
