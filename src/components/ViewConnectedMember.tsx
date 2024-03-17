@@ -45,7 +45,11 @@ export default function ViewConnectedMember({
   const queryClient = useQueryClient();
   const { address } = useAccount();
 
-  const { data: newVaults, queryKey } = useReadContract({
+  const {
+    data: newVaults,
+    queryKey,
+    refetch: refetchVaults,
+  } = useReadContract({
     address: viewContract && viewContract.address,
     abi: viewContract && viewContract.abi,
     functionName: "getVaults",
@@ -66,6 +70,12 @@ export default function ViewConnectedMember({
       setVaults(newVaultsArray.sort((a, b) => a.expiry - b.expiry));
     }
   }, [newVaults]);
+
+  useEffect(() => {
+    if (mode === "vault") {
+      refetchVaults();
+    }
+  }, [mode]);
 
   const ethusd = 3750;
   const apeusd = 2.1;

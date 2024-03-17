@@ -58,8 +58,6 @@ export default function Interaction({ refetchMonster }: InteractionProps) {
     });
   };
 
-  console.log(items);
-
   useEffect(() => {
     if (newItems) {
       const newItemsArray = newItems.map((item: any) => {
