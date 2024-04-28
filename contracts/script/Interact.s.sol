@@ -14,7 +14,7 @@ contract Interact is Script {
         vm.startBroadcast(deployerPrivateKey);
 
         ZenMonVault zenMonVault = ZenMonVault(
-            0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9
+            0xA507F14321FdB7EC26d559A15b8CA5055c37c0Ca
         );
         VaultItem memory vault = zenMonVault.getVaults(deployerAddress)[0];
         console.log(vault.id, vault.token, vault.amount, vault.expiry);

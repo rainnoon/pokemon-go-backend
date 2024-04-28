@@ -28,26 +28,26 @@
     zora-sepolia = "${ZORASEPOLIA}"
 
     [etherscan]
-    #mainnet = { key = "${ETHERSCAN_API_KEY}" }
-    #sepolia = { key = "${ETHERSCAN_API_KEY}" }
-    #arbitrum-one = { key = "${ARBISCAN_API_KEY}", url = "https://api.arbiscan.io" }
-    #arbitrum-one-sepolia = { key = "${ARBISCAN_API_KEY}", url = "https://api-sepolia.arbiscan.io" }
-    #arbitrum-nova = { key = "${ARBISCANNOVA_API_KEY}" }
-    #avalanche = { key = "${SNOWTRACE_API_KEY}", url = "https://api.snowtrace.io" }
-    #avalanche-fuji = { key = "${SNOWTRACE_API_KEY}", url = "https://api-testnet.snowtrace.io" }
-    #base = { key = "${BASESCAN_API_KEY}", url = "https://api.basescan.org/" }
-    #base-sepolia = { key = "${BASESCAN_API_KEY}", url = "https://api-sepolia.basescan.org/" }
-    #celo = { key = ""}
-    #celo-alfajores = { key = ""}
-    #chiliz-spicy = { key = "${CHILIZSPICY_BLOCKSCOUT_API_KEY}", url = "https://spicy-explorer.chiliz.com/api" }
-    #mode = { key = "${MODENETWORK_BLOCKSCOUT_API_KEY}", url = "https://sepolia.explorer.mode.network/api/v2" }
-    #neon-devnet = { key = "${NEON_BLOCKSCOUT_API_KEY}", url = "https://neon-devnet.blockscout.com/api" }
-    #optimism = { key = "${OPTIMISTIC_ETHERSCAN_API_KEY}", url = "https://api-optimistic.etherscan.io/api"}
-    #optimism-sepolia = { key = "${OPTIMISTIC_ETHERSCAN_API_KEY}", url = "https://api-sepolia-optimistic.etherscan.io/api"}
-    #polygon = { key = "${POLYGONSCAN_API_KEY}", url = "https://api.polygonscan.com/api" }
-    #mumbai = { key = "${POLYGONSCAN_API_KEY}", url = "https://api-testnet.polygonscan.com/api" }
-    #scroll = { key = "${SCROLL_BLOCKSCOUT_API_KEY}", url = "https://blockscout.scroll.io/api" }
-    #zora = { key = "${ZORA_BLOCKSCOUT_API_KEY}", url = "https://explorer.zora.energy/api" }
-    #zora-sepolia = { key = "${ZORA_BLOCKSCOUT_API_KEY}", url = "https://sepolia.explorer.zora.energy/api" }
+    mainnet = { key = "${ETHERSCAN_API_KEY}" }
+    sepolia = { key = "${ETHERSCAN_API_KEY}" }
+    arbitrum-one = { key = "${ARBISCAN_API_KEY}", url = "https://api.arbiscan.io" }
+    arbitrum-one-sepolia = { key = "${ARBISCAN_API_KEY}", url = "https://api-sepolia.arbiscan.io" }
+    arbitrum-nova = { key = "${ARBISCANNOVA_API_KEY}" }
+    avalanche = { key = "${SNOWTRACE_API_KEY}", url = "https://api.snowtrace.io" }
+    avalanche-fuji = { key = "${SNOWTRACE_API_KEY}", url = "https://api-testnet.snowtrace.io" }
+    base = { key = "${BASESCAN_API_KEY}", url = "https://api.basescan.org/" }
+    base-sepolia = { key = "${BASESCAN_API_KEY}", url = "https://api-sepolia.basescan.org/" }
+    celo = { key = ""}
+    celo-alfajores = { key = ""}
+    chiliz-spicy = { key = "${CHILIZSPICY_BLOCKSCOUT_API_KEY}", url = "https://spicy-explorer.chiliz.com/api" }
+    mode = { key = "${MODENETWORK_BLOCKSCOUT_API_KEY}", url = "https://sepolia.explorer.mode.network/api/v2" }
+    neon-devnet = { key = "${NEON_BLOCKSCOUT_API_KEY}", url = "https://neon-devnet.blockscout.com/api" }
+    optimism = { key = "${OPTIMISTIC_ETHERSCAN_API_KEY}", url = "https://api-optimistic.etherscan.io/api"}
+    optimism-sepolia = { key = "${OPTIMISTIC_ETHERSCAN_API_KEY}", url = "https://api-sepolia-optimistic.etherscan.io/api"}
+    polygon = { key = "${POLYGONSCAN_API_KEY}", url = "https://api.polygonscan.com/api" }
+    mumbai = { key = "${POLYGONSCAN_API_KEY}", url = "https://api-testnet.polygonscan.com/api" }
+    scroll = { key = "${SCROLL_BLOCKSCOUT_API_KEY}", url = "https://blockscout.scroll.io/api" }
+    zora = { key = "${ZORA_BLOCKSCOUT_API_KEY}", url = "https://explorer.zora.energy/api" }
+    zora-sepolia = { key = "${ZORA_BLOCKSCOUT_API_KEY}", url = "https://sepolia.explorer.zora.energy/api" }
 
     # See more config options https://github.com/foundry-rs/foundry/tree/master/config
