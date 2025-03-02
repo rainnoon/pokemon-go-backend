@@ -1,4 +1,4 @@
-# ZenMon - ブロックチェーンベースのモンスターゲーム
+# ポケモンGO 貯金箱
 
 [English](README.en.md) | 日本語
 
