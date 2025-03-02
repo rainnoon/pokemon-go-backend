@@ -1,10 +1,6 @@
-# ZenMon
+# ZenMon - ブロックチェーンベースのモンスターゲーム
 
-## An ETHGlobal London Hackathon Project
+[English](README.en.md) | 日本語
 
-### by @PDiTO
-
-NextJS / Tailwind / Wagmi / Viem frontend in root
-/contracts for Foundry and smart contracts
-
-Using Scaffold.ETH simplified version. Added foundry, removed hardhat. Adjusted contract creation script.
+## 概要
+ZenMonのトークン引き出し機能が改善され、より完全な機能となりました。
