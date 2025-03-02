@@ -26,4 +26,11 @@ interface IZenMonVault {
     function getVaults(
         address _user
     ) external view returns (VaultItem[] memory);
+
+    // 添加提款相关函数
+    function withdraw(uint256 _vaultId) external;
+    
+    function isVaultExpired(uint256 _vaultId) external view returns (bool);
+    
+    function timeToExpiry(uint256 _vaultId) external view returns (uint256);
 }
